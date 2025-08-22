@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction History</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #c8e6c9);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+            margin-bottom: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1b5e20;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #a5d6a7;
+            color: #1b5e20;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .back-button {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .back-button a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Prediction History</h1>
+
+        <div class="button-group">
+            <a href="/">
+                <button>⬅️ Back to Prediction</button>
+            </a>
+            <a href="/download_csv">
+                <button>⬇️ Download CSV</button>
+            </a>
+        </div>
+
+        {% if data %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Showroom Price</th>
+                    <th>KMs Driven</th>
+                    <th>Owner</th>
+                    <th>Fuel Type</th>
+                    <th>Seller Type</th>
+                    <th>Transmission</th>
+                    <th>Year</th>
+                    <th>Car Age</th>
+                    <th>Predicted Price</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in data %}
+                <tr>
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.present_price }}</td>
+                    <td>{{ entry.kms_driven }}</td>
+                    <td>{{ entry.owner }}</td>
+                    <td>{{ entry.fuel_type }}</td>
+                    <td>{{ entry.seller_type }}</td>
+                    <td>{{ entry.transmission }}</td>
+                    <td>{{ entry.year }}</td>
+                    <td>{{ entry.car_age }}</td>
+                    <td>{{ entry.predicted_price }}</td>
+                    <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p style="text-align:center; font-weight: bold; color: #b71c1c;">No predictions found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

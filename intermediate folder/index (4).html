@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CarWise PRO - AI Car Price Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 CarWise PRO</h1>
+
+        {% if error_message %}
+        <div style="color: red; font-weight: bold; margin-bottom: 1rem; text-align: center;">
+            {{ error_message }}
+        </div>
+        {% endif %}
+
+        <div style="margin-bottom: 1rem; text-align: center;">
+            <a href="/history">
+                <button style="padding: 10px 20px; background: #2e7d32; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                    📄 View Prediction History
+                </button>
+            </a>
+        </div>
+
+        <form method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Showroom Price (in Lakhs)</label>
+                    <input type="number" name="present_price" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label>Kilometers Driven</label>
+                    <input type="number" name="kms_driven" required>
+                </div>
+                <div class="form-group">
+                    <label>Previous Owners</label>
+                    <input type="number" name="owner" min="0" max="3" required>
+                </div>
+                <div class="form-group">
+                    <label>Fuel Type</label>
+                    <select name="fuel_type" required>
+                        <option value="">Select</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="CNG">CNG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Seller Type</label>
+                    <select name="seller_type" required>
+                        <option value="">Select</option>
+                        <option value="Dealer">Dealer</option>
+                        <option value="Individual">Individual</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Transmission Type</label>
+                    <select name="transmission" required>
+                        <option value="">Select</option>
+                        <option value="Manual">Manual</option>
+                        <option value="Automatic">Automatic</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Year of Purchase</label>
+                    <input type="number" name="year" min="2000" max="2025" required>
+                </div>
+            </div>
+            <button type="submit">🔍 Predict Selling Price</button>
+        </form>
+
+        {% if predicted_price is not none %}
+        <div class="result-box">
+            <div class="price-card">
+                <div class="price-title">💰 Estimated Selling Price</div>
+                <div class="price-value" id="countUpPrice" data-price="{{ predicted_price }}">0</div>
+                <div class="price-sub">in Lakhs</div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if plot_data %}
+        <div class="plot-container">
+            <h3 style="color: #64b5f6;">📊 Showroom vs Predicted Price</h3>
+            <img src="data:image/png;base64,{{ plot_data }}" alt="Prediction Chart">
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
